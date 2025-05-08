@@ -18,12 +18,12 @@ try:
     from PySide6.QtCore import __version__ as QT_VERSION_STR
     from PySide6.QtGui import QFont
     from PySide6.QtCore import QFile, QTextStream, QSettings, Qt
-except:
+except Exception:
     from PyQt5 import QtWidgets, QtCore
     from PyQt5.QtGui import QFont
     from PyQt5.QtCore import QFile, QTextStream, QSettings, Qt, QT_VERSION_STR
 
-from persepolis.gui import resources
+from persepolis.gui import resources # noqa: F401
 import traceback
 from persepolis.scripts.error_window import ErrorWindow
 import json
@@ -93,19 +93,21 @@ else:  # for windows
     else:
         lock_file_validation = True
 
-# run persepolis mainwindow
+# run persepolis main-window
 if lock_file_validation:
 
     # execute initialization script
     from persepolis.scripts import initialization
     from persepolis.scripts.mainwindow import MainWindow
+    if not initialization.config_folder:
+        print("Failed to determine initialization.config_folder")
 
 # set "persepolis" name for this process in linux and bsd
     if os_type in OS.UNIX_LIKE:
         try:
             from setproctitle import setproctitle
             setproctitle("persepolisdm")
-        except:
+        except Exception:
             from persepolis.scripts import logger
             logger.sendToLog('setproctitle is not installed!', "ERROR")
 

@@ -27,7 +27,7 @@ import os
 try:
     from PySide6.QtCore import QThread, Signal, QProcess
     from PySide6.QtWidgets import QStyleFactory
-except:
+except Exception:
     from PyQt5.QtWidgets import QStyleFactory
     from PyQt5.QtCore import QThread, QProcess
     from PyQt5.QtCore import pyqtSignal as Signal
@@ -35,7 +35,7 @@ except:
 try:
     from persepolis.scripts import logger
     logger_availability = True
-except:
+except Exception:
     logger_availability = False
 
 # find operating system
@@ -165,7 +165,7 @@ def convertToByte(file_size):
 def freeSpace(dir):
     try:
         import psutil
-    except:
+    except Exception:
         if logger_availability:
             logger.sendToLog("psutil in not installed!", "ERROR")
 
@@ -362,7 +362,7 @@ def ffmpegVersion():
         else:
             ffmpeg_is_installed = False
             ffmpeg_output = 'ffmpeg is not installed'
-    except:
+    except Exception:
         ffmpeg_is_installed = False
         ffmpeg_output = 'ffmpeg is not installed'
 
@@ -377,9 +377,8 @@ def ffmpegVersion():
     return ffmpeg_is_installed, ffmpeg_output, log_list
 
 
-# run apllication with qprocess
+# run application with qprocess
 def qRunApplication(command: str, command_argument: list, parent=None):
-
     process = QProcess(parent=parent)
     process.start(command, command_argument)
     return process
@@ -531,7 +530,7 @@ def getExecPath():
     exec_dictionary['exec_file_path'] = exec_file_path
     exec_dictionary['modified_exec_file_path'] = modified_exec_file_path
 
-    # return ressults
+    # return results
     return exec_dictionary
 
 

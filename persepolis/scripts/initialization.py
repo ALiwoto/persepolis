@@ -26,7 +26,7 @@ import os
 
 try:
     from PySide6.QtCore import QSettings
-except:
+except Exception:
     from PyQt5.QtCore import QSettings
 
 # initialization
@@ -128,20 +128,20 @@ for key in default_setting_dict.keys():
     setting_value = persepolis_setting.value(key, default_setting_dict[key])
     persepolis_setting.setValue(key, setting_value)
 
-# set default dwonload path
+# set default download path
 if not (os.path.exists(persepolis_setting.value('download_path'))):
     persepolis_setting.setValue('download_path', default_setting_dict['download_path'])
 
 
 persepolis_setting.sync()
 
-# Create downloads folder and subfolders.
+# Create downloads folder and sub-folders.
 # download sub folders if they did not existed.
 download_path = persepolis_setting.value('download_path')
 
 folder_list = [download_path]
 
-# add subfolders to folder_list if user checked subfolders check box in setting window.
+# add sub-folders to folder_list if user checked sub-folders check box in setting window.
 if persepolis_setting.value('subfolder') == 'yes':
     for folder in ['Audios', 'Videos', 'Others', 'Documents', 'Compressed']:
         folder_list.append(os.path.join(download_path, folder))
